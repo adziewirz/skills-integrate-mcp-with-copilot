@@ -5,7 +5,23 @@ A super simple FastAPI application that allows students to view and sign up
 for extracurricular activities at Mergington High School.
 """
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Body
+from pydantic import BaseModel
+class CopilotAskRequest(BaseModel):
+    question: str
+
+class CopilotAskResponse(BaseModel):
+    answer: str
+
+@app.post("/copilot/ask", response_model=CopilotAskResponse)
+def copilot_ask(request: CopilotAskRequest = Body(...)):
+    """
+    Example endpoint simulating MCP integration with Copilot.
+    Accepts a question and returns a sample Copilot answer.
+    """
+    # Here you would normally call MCP/Copilot API
+    # For demonstration, return a static answer
+    return CopilotAskResponse(answer=f"Copilot (MCP) received your question: '{request.question}'. This is a sample response.")
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 import os
